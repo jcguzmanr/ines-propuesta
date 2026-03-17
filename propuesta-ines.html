@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Web — Inés | por Itera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   INÉS — Propuesta Web · Itera
+   Brand Colors & Design System
+   ═══════════════════════════════════════════ */
+
+:root {
+  --azul-oscuro: #1C2F4F;
+  --blanco-hueso: #F9F5DE;
+  --dorado: #DDAD62;
+  --gris: #8E8786;
+  --naranja: #C46A3A;
+  --celeste: #1D5383;
+  --morado: #441C41;
+  --white: #FFFFFF;
+  --black: #111111;
+
+  --font-serif: 'Cormorant Garamond', 'Georgia', serif;
+  --font-sans: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+
+  --sidebar-width: 280px;
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--blanco-hueso);
+  color: var(--azul-oscuro);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR
+   ═══════════════════════════════════════════ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--azul-oscuro);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition);
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: 40px 30px 20px;
+  border-bottom: 1px solid rgba(249,245,222,0.08);
+}
+
+.sidebar-brand h1 {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 2rem;
+  color: var(--blanco-hueso);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.sidebar-brand .subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  color: var(--dorado);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.sidebar-section-label {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  padding: 28px 30px 10px;
+  opacity: 0.8;
+}
+
+.sidebar nav {
+  flex: 1;
+  padding: 0 0 30px;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 30px;
+  color: rgba(249,245,222,0.55);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  transition: all var(--transition);
+  border-left: 2px solid transparent;
+  position: relative;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  color: var(--blanco-hueso);
+  background: rgba(249,245,222,0.04);
+  border-left-color: var(--dorado);
+}
+
+.sidebar nav a .nav-number {
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  color: var(--dorado);
+  opacity: 0.5;
+  min-width: 18px;
+}
+
+.sidebar nav a:hover .nav-number,
+.sidebar nav a.active .nav-number {
+  opacity: 1;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: rgba(249,245,222,0.06);
+  margin: 8px 30px;
+}
+
+.sidebar-footer {
+  padding: 20px 30px;
+  border-top: 1px solid rgba(249,245,222,0.08);
+}
+
+.sidebar-footer p {
+  font-size: 0.65rem;
+  color: rgba(249,245,222,0.3);
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
+
+.sidebar-footer .itera-mark {
+  color: var(--dorado);
+  font-weight: 500;
+  opacity: 0.6;
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE MENU TOGGLE
+   ═══════════════════════════════════════════ */
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1100;
+  width: 44px;
+  height: 44px;
+  background: var(--azul-oscuro);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  transition: all var(--transition);
+}
+
+.menu-toggle span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--blanco-hueso);
+  transition: all var(--transition);
+  position: relative;
+}
+
+.menu-toggle span::before,
+.menu-toggle span::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 1.5px;
+  background: var(--blanco-hueso);
+  transition: all var(--transition);
+}
+
+.menu-toggle span::before { top: -6px; }
+.menu-toggle span::after { top: 6px; }
+
+.menu-toggle.active span { background: transparent; }
+.menu-toggle.active span::before { top: 0; transform: rotate(45deg); }
+.menu-toggle.active span::after { top: 0; transform: rotate(-45deg); }
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════ */
+
+.main {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+}
+
+section {
+  padding: 100px 80px;
+  position: relative;
+}
+
+section:not(:last-child) {
+  border-bottom: 1px solid rgba(28,47,79,0.06);
+}
+
+.section-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.wide-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════ */
+
+#hero {
+  background: var(--azul-oscuro);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(221,173,98,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+#hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(29,83,131,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-label {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  color: var(--blanco-hueso);
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  margin-bottom: 30px;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--dorado);
+  font-weight: 300;
+}
+
+.hero-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: rgba(249,245,222,0.5);
+  max-width: 500px;
+  margin: 0 auto 50px;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-meta-item {
+  text-align: center;
+}
+
+.hero-meta-item .label {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(249,245,222,0.3);
+  margin-bottom: 4px;
+}
+
+.hero-meta-item .value {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--blanco-hueso);
+  font-weight: 400;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.scroll-indicator span {
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--dorado));
+  margin: 0 auto;
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; height: 30px; }
+  50% { opacity: 0.8; height: 45px; }
+}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════ */
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  color: var(--azul-oscuro);
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  margin-bottom: 20px;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--naranja);
+}
+
+.dark-section .section-title {
+  color: var(--blanco-hueso);
+}
+
+.dark-section .section-title em {
+  color: var(--dorado);
+}
+
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: var(--azul-oscuro);
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
+
+.dark-section h3 {
+  color: var(--blanco-hueso);
+}
+
+p {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: rgba(28,47,79,0.75);
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+
+.dark-section p {
+  color: rgba(249,245,222,0.6);
+}
+
+/* ═══════════════════════════════════════════
+   DARK SECTIONS
+   ═══════════════════════════════════════════ */
+
+.dark-section {
+  background: var(--azul-oscuro);
+  color: var(--blanco-hueso);
+}
+
+.dark-section .section-label {
+  color: var(--dorado);
+}
+
+/* ═══════════════════════════════════════════
+   BLOCKQUOTE
+   ═══════════════════════════════════════════ */
+
+blockquote {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--azul-oscuro);
+  border-left: 2px solid var(--dorado);
+  padding: 20px 0 20px 30px;
+  margin: 30px 0;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+blockquote cite {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gris);
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+.dark-section blockquote {
+  color: var(--blanco-hueso);
+  border-left-color: var(--dorado);
+}
+
+.dark-section blockquote cite {
+  color: rgba(249,245,222,0.4);
+}
+
+/* ═══════════════════════════════════════════
+   INSIGHT CARD
+   ═══════════════════════════════════════════ */
+
+.insight-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: 0 1px 3px rgba(28,47,79,0.04);
+  border: 1px solid rgba(28,47,79,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.insight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--dorado), var(--naranja));
+}
+
+.insight-card h4 {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.insight-card p {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--azul-oscuro);
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.dark-section .insight-card {
+  background: rgba(249,245,222,0.04);
+  border-color: rgba(249,245,222,0.08);
+}
+
+.dark-section .insight-card p {
+  color: var(--blanco-hueso);
+}
+
+/* ═══════════════════════════════════════════
+   COMPARISON TABLE
+   ═══════════════════════════════════════════ */
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 30px 0;
+  font-size: 0.85rem;
+}
+
+.comparison-table th {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--gris);
+  text-align: left;
+  padding: 14px 20px;
+  border-bottom: 2px solid rgba(28,47,79,0.08);
+}
+
+.comparison-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(28,47,79,0.05);
+  vertical-align: top;
+  font-weight: 300;
+  color: rgba(28,47,79,0.7);
+}
+
+.comparison-table tr:last-child td {
+  border-bottom: none;
+}
+
+.comparison-table .dim-label {
+  font-weight: 500;
+  color: var(--azul-oscuro);
+  font-size: 0.82rem;
+}
+
+.comparison-table .highlight-cell {
+  background: rgba(221,173,98,0.06);
+  font-weight: 400;
+  color: var(--azul-oscuro);
+}
+
+/* Dark section comparison table overrides */
+.dark-section .comparison-table th {
+  color: rgba(249,245,222,0.4);
+  border-bottom-color: rgba(249,245,222,0.1);
+}
+
+.dark-section .comparison-table td {
+  color: rgba(249,245,222,0.6);
+  border-bottom-color: rgba(249,245,222,0.06);
+}
+
+.dark-section .comparison-table .dim-label {
+  color: var(--blanco-hueso);
+  font-weight: 500;
+}
+
+.dark-section .comparison-table .highlight-cell {
+  background: rgba(221,173,98,0.1);
+  color: var(--blanco-hueso);
+  font-weight: 400;
+}
+
+/* ═══════════════════════════════════════════
+   PROPOSAL CARDS
+   ═══════════════════════════════════════════ */
+
+.proposals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.proposal-card {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(28,47,79,0.04);
+  border: 1px solid rgba(28,47,79,0.06);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.proposal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(28,47,79,0.08);
+}
+
+.proposal-card.recommended {
+  border-color: var(--dorado);
+  box-shadow: 0 2px 20px rgba(221,173,98,0.1);
+}
+
+.proposal-header {
+  padding: 35px 35px 25px;
+  position: relative;
+}
+
+.proposal-card.recommended .proposal-header::after {
+  content: 'Recomendada';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--dorado);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.proposal-letter {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: var(--dorado);
+  opacity: 0.3;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.proposal-card.recommended .proposal-letter {
+  opacity: 0.6;
+}
+
+.proposal-name {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--azul-oscuro);
+  margin-bottom: 6px;
+}
+
+.proposal-tagline {
+  font-size: 0.78rem;
+  color: var(--gris);
+  font-weight: 300;
+}
+
+.proposal-body {
+  padding: 0 35px 35px;
+}
+
+.proposal-sections {
+  list-style: none;
+  margin-bottom: 25px;
+}
+
+.proposal-sections li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 0.82rem;
+  color: rgba(28,47,79,0.7);
+  font-weight: 300;
+}
+
+.proposal-sections li .check {
+  color: var(--dorado);
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.proposal-sections li .dash {
+  color: rgba(28,47,79,0.2);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.proposal-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-top: 1px solid rgba(28,47,79,0.05);
+  font-size: 0.78rem;
+}
+
+.proposal-detail .detail-label {
+  color: var(--gris);
+  font-weight: 400;
+}
+
+.proposal-detail .detail-value {
+  color: var(--azul-oscuro);
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION FEATURE
+   ═══════════════════════════════════════════ */
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.feature-item {
+  padding: 30px;
+  border-radius: 12px;
+  background: var(--white);
+  border: 1px solid rgba(28,47,79,0.05);
+}
+
+.dark-section .feature-item {
+  background: rgba(249,245,222,0.03);
+  border-color: rgba(249,245,222,0.06);
+}
+
+.feature-number {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--dorado);
+  opacity: 0.4;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+
+.feature-item h4 {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--azul-oscuro);
+}
+
+.dark-section .feature-item h4 {
+  color: var(--blanco-hueso);
+}
+
+.feature-item p {
+  font-size: 0.82rem;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════════
+   SECTIONS LIST (FICHA TÉCNICA)
+   ═══════════════════════════════════════════ */
+
+.sections-table {
+  width: 100%;
+  margin: 30px 0;
+  border-collapse: collapse;
+}
+
+.sections-table th {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 2px solid rgba(249,245,222,0.1);
+  color: var(--dorado);
+}
+
+.sections-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(249,245,222,0.05);
+  font-size: 0.82rem;
+  color: rgba(249,245,222,0.6);
+  font-weight: 300;
+  vertical-align: top;
+}
+
+.sections-table .section-name {
+  font-weight: 500;
+  color: var(--blanco-hueso);
+}
+
+.sections-table .included {
+  color: var(--dorado);
+  font-weight: 500;
+}
+
+.sections-table .not-included {
+  color: rgba(249,245,222,0.2);
+}
+
+/* ═══════════════════════════════════════════
+   PRICE SECTION
+   ═══════════════════════════════════════════ */
+
+.price-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.price-card {
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.price-card.minimal {
+  background: rgba(249,245,222,0.05);
+  border: 1px solid rgba(249,245,222,0.08);
+}
+
+.price-card.complete {
+  background: rgba(221,173,98,0.08);
+  border: 1px solid rgba(221,173,98,0.2);
+}
+
+.price-card.complete::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--dorado);
+}
+
+.price-label {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.price-card.minimal .price-label { color: rgba(249,245,222,0.4); }
+.price-card.complete .price-label { color: var(--dorado); }
+
+.price-name {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--blanco-hueso);
+  margin-bottom: 20px;
+}
+
+.price-includes {
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.price-includes li {
+  padding: 6px 0;
+  font-size: 0.82rem;
+  color: rgba(249,245,222,0.55);
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price-includes li .icon {
+  color: var(--dorado);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.price-amount {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: rgba(249,245,222,0.35);
+  font-style: italic;
+  padding-top: 20px;
+  border-top: 1px solid rgba(249,245,222,0.06);
+}
+
+/* ═══════════════════════════════════════════
+   TIMELINE
+   ═══════════════════════════════════════════ */
+
+.timeline {
+  margin: 40px 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(28,47,79,0.1);
+}
+
+.timeline-item {
+  display: flex;
+  gap: 30px;
+  padding: 20px 0;
+  position: relative;
+}
+
+.timeline-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid rgba(28,47,79,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: var(--dorado);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-content h4 {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--azul-oscuro);
+  margin-bottom: 4px;
+}
+
+.timeline-content p {
+  font-size: 0.82rem;
+  margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════════
+   CTA / CLOSING
+   ═══════════════════════════════════════════ */
+
+#cierre {
+  text-align: center;
+}
+
+.cta-section {
+  background: var(--morado);
+  padding: 100px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(221,173,98,0.08) 0%, transparent 60%);
+}
+
+.cta-content {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-section .section-title {
+  color: var(--blanco-hueso);
+}
+
+.cta-section p {
+  color: rgba(249,245,222,0.5);
+  max-width: 500px;
+  margin: 0 auto 30px;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  background: var(--dorado);
+  color: var(--azul-oscuro);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 40px;
+  transition: all var(--transition);
+}
+
+.cta-button:hover {
+  background: var(--blanco-hueso);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
+/* ═══════════════════════════════════════════
+   DISCLAIMER / NOTES
+   ═══════════════════════════════════════════ */
+
+.note-box {
+  background: rgba(28,47,79,0.03);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 25px 0;
+  border-left: 3px solid var(--dorado);
+}
+
+.note-box p {
+  font-size: 0.82rem;
+  margin-bottom: 0;
+}
+
+.note-box .note-title {
+  font-weight: 500;
+  color: var(--azul-oscuro);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.dark-section .note-box {
+  background: rgba(249,245,222,0.03);
+}
+
+/* ═══════════════════════════════════════════
+   PILL TAGS
+   ═══════════════════════════════════════════ */
+
+.tag {
+  display: inline-block;
+  padding: 4px 14px;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  border-radius: 20px;
+  font-weight: 500;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.tag-gold {
+  background: rgba(221,173,98,0.12);
+  color: var(--dorado);
+}
+
+.tag-blue {
+  background: rgba(29,83,131,0.08);
+  color: var(--celeste);
+}
+
+.tag-muted {
+  background: rgba(28,47,79,0.05);
+  color: var(--gris);
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATED ELEMENTS
+   ═══════════════════════════════════════════ */
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  section {
+    padding: 70px 50px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+
+  .main {
+    margin-left: 0;
+  }
+
+  section {
+    padding: 60px 24px;
+  }
+
+  .proposals-grid,
+  .price-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-meta {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .comparison-table {
+    font-size: 0.78rem;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 10px 12px;
+  }
+
+  .sections-table {
+    font-size: 0.78rem;
+  }
+
+  .sections-table th,
+  .sections-table td {
+    padding: 10px 12px;
+  }
+
+  blockquote {
+    padding-left: 20px;
+    font-size: 1.05rem;
+  }
+
+  .insight-card {
+    padding: 28px;
+  }
+
+  .proposal-header,
+  .proposal-body {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .price-card {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 50px 20px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SEPARATOR ORNAMENT
+   ═══════════════════════════════════════════ */
+
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 40px 0;
+  color: var(--dorado);
+  opacity: 0.3;
+}
+
+.ornament span {
+  width: 40px;
+  height: 1px;
+  background: currentColor;
+}
+
+.ornament::before {
+  content: '\2666';
+  font-size: 0.5rem;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--blanco-hueso);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(28,47,79,0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(28,47,79,0.25);
+}
+
+/* ═══════════════════════════════════════════
+   ADDITIONAL UTILITY
+   ═══════════════════════════════════════════ */
+
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+.mb-40 { margin-bottom: 40px; }
+.text-center { text-align: center; }
+.text-gold { color: var(--dorado); }
+.text-muted { color: var(--gris); }
+.small { font-size: 0.78rem; }
+
+.spacer { height: 30px; }
+.spacer-lg { height: 50px; }
+
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+  <span></span>
+</button>
+<div class="sidebar-overlay" onclick="toggleMenu()"></div>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h1>Inés</h1>
+    <p class="subtitle">Propuesta Estratégica Web</p>
+  </div>
+
+  <nav>
+    <div class="sidebar-section-label">Nuestro Análisis</div>
+    <a href="#hero"><span class="nav-number">00</span> Inicio</a>
+    <a href="#contexto"><span class="nav-number">01</span> Contexto</a>
+    <a href="#pregunta"><span class="nav-number">02</span> La Pregunta Clave</a>
+    <a href="#insight"><span class="nav-number">03</span> El Insight</a>
+    <a href="#comparativo"><span class="nav-number">04</span> Venta vs. Premium</a>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">La Propuesta</div>
+    <a href="#propuestas"><span class="nav-number">05</span> Dos Caminos</a>
+    <a href="#secciones"><span class="nav-number">06</span> Detalle de Secciones</a>
+    <a href="#tecnico"><span class="nav-number">07</span> Ficha Técnica</a>
+    <a href="#inversion"><span class="nav-number">08</span> Inversión</a>
+    <a href="#entregables"><span class="nav-number">09</span> Qué Necesitamos</a>
+    <a href="#cierre"><span class="nav-number">10</span> Siguiente Paso</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <p>Preparado por<br><span class="itera-mark">Itera</span> &mdash; Marzo 2026</p>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══ HERO ═══ -->
+  <section id="hero">
+    <div class="hero-content">
+      <p class="hero-label">Propuesta Estratégica</p>
+      <h2 class="hero-title">Web <em>Inés</em></h2>
+      <p class="hero-subtitle">Una presencia digital a la altura de la marca. Sin tienda. Sin urgencia. Con la pieza siempre al centro.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <p class="label">Preparado por</p>
+          <p class="value">Itera</p>
+        </div>
+        <div class="hero-meta-item">
+          <p class="label">Para</p>
+          <p class="value">Inés Wiese</p>
+        </div>
+        <div class="hero-meta-item">
+          <p class="label">Fecha</p>
+          <p class="value">Marzo 2026</p>
+        </div>
+        <div class="hero-meta-item">
+          <p class="label">Referencia</p>
+          <p class="value">ghezzinovak.com</p>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator"><span></span></div>
+  </section>
+
+  <!-- ═══ CONTEXTO ═══ -->
+  <section id="contexto">
+    <div class="section-inner fade-in">
+      <p class="section-label">01 &mdash; Contexto</p>
+      <h2 class="section-title">Quién es <em>Inés</em></h2>
+
+      <p>Inés es un atelier de joyería de autor especializada en piezas únicas y series limitadas. Cada pieza es formada a mano, a partir de una selección cuidadosa de metales nobles: plata 950, oro 18K y pedrería.</p>
+
+      <p>La joyería se concibe como un objeto de valor material y diseño, pensado para acompañar el tiempo con naturalidad. Inés es orfebre, artista plástica y diseñadora.</p>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-number">01</div>
+          <h4>Diseño autoral</h4>
+          <p>Cada pieza es resultado de un proceso de diseño profundamente personal, guiado por la sensibilidad y la visión de Inés.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">02</div>
+          <h4>Materiales curados</h4>
+          <p>Plata 950, oro 18K y pedrería cuidadosamente seleccionados. El valor está en la calidad del objeto.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">03</div>
+          <h4>Alta ejecución artesanal</h4>
+          <p>Fundir, moldear, limar y pulir. Las piezas conservan las huellas del trabajo: la memoria de su elaboración.</p>
+        </div>
+      </div>
+
+      <blockquote>
+        Inés define el lujo desde la materia, la mano y la permanencia. Piezas bien hechas, con intención clara y valor real.
+        <cite>Brand Development INÉS 2026</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ LA PREGUNTA ═══ -->
+  <section id="pregunta" class="dark-section">
+    <div class="section-inner fade-in">
+      <p class="section-label">02 &mdash; La Pregunta Clave</p>
+      <h2 class="section-title">Antes del brief, hay una pregunta que necesita <em>respuesta</em></h2>
+
+      <div class="spacer"></div>
+
+      <div class="insight-card">
+        <h4>La pregunta estratégica</h4>
+        <p>¿El objetivo de la web es vender &mdash; o es que Inés sea percibida como lo que es?</p>
+      </div>
+
+      <p>Estas dos cosas no son lo mismo. Y confundirlas tiene consecuencias sobre el posicionamiento, la inversión técnica y la experiencia del usuario.</p>
+
+      <p>El cliente ha pedido un <strong>landing de venta</strong>. Pero el manual de marca de Inés dice algo diferente:</p>
+
+      <blockquote>
+        No hay urgencia. No hay insistencia comercial. Las palabras acompañan al objeto. La pieza es siempre el centro.
+        <cite>Brand Development INÉS 2026</cite>
+      </blockquote>
+
+      <p>Una landing de venta opera con lógica de conversión: CTAs directos, precio visible, urgencia implícita. Esa lógica funciona para volumen. <strong>No funciona para joyería de autor high-end.</strong></p>
+    </div>
+  </section>
+
+  <!-- ═══ INSIGHT ═══ -->
+  <section id="insight">
+    <div class="section-inner fade-in">
+      <p class="section-label">03 &mdash; El Insight</p>
+      <h2 class="section-title">La web no es la tienda. La web es la razón por la que alguien <em>quiere comprar</em></h2>
+
+      <p>La decisión de no tener tienda online no es una limitación. Es coherente con el posicionamiento de la marca.</p>
+
+      <p>Una web de e-commerce agresiva contradice lo que Inés construyó. Una web que eleva la percepción y dirige al canal correcto &mdash;Instagram / DM&mdash; la refuerza.</p>
+
+      <div class="insight-card">
+        <h4>Conclusión estratégica</h4>
+        <p>Si la web convierte agresivamente, baja el precio percibido de la pieza. Si la web eleva la percepción, el precio se sostiene solo.</p>
+      </div>
+
+      <p>Para Inés, el precio de una pieza no se justifica con un botón de compra. Se justifica con la historia, el material, el proceso. La web tiene que hacer ese trabajo antes de vender.</p>
+
+      <div class="ornament"><span></span><span></span></div>
+
+      <h3>Lo que entendimos</h3>
+
+      <div class="feature-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="feature-item">
+          <h4>Para el usuario</h4>
+          <p>Llega, descubre la marca, entiende quién es Inés, ve las piezas, y va a Instagram para adquirir o consultar.</p>
+        </div>
+        <div class="feature-item">
+          <h4>Para la marca</h4>
+          <p>Establece presencia digital de nivel. Funciona como carta de presentación para prensa, colaboraciones y clientes nuevos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COMPARATIVO ═══ -->
+  <section id="comparativo" class="dark-section">
+    <div class="wide-inner fade-in">
+      <p class="section-label">04 &mdash; Venta vs. Premium</p>
+      <h2 class="section-title">Dos lógicas, dos <em>resultados</em></h2>
+
+      <p>Analizamos las consecuencias reales de cada enfoque sobre la marca, la operación y la coherencia.</p>
+
+      <div class="spacer"></div>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Dimensión</th>
+            <th>Landing de Venta</th>
+            <th style="color: var(--dorado);">Web Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dim-label">Objetivo</td>
+            <td>Conversión inmediata</td>
+            <td class="highlight-cell">Deseo + conversión diferida</td>
+          </tr>
+          <tr>
+            <td class="dim-label">CTA principal</td>
+            <td>"Comprar ahora" / "Agregar al carrito"</td>
+            <td class="highlight-cell">"Ver pieza" / "Solicitar" / "Contactar"</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Precio</td>
+            <td>Visible y central</td>
+            <td class="highlight-cell">Visible pero secundario</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Stock</td>
+            <td>Requiere gestión en tiempo real</td>
+            <td class="highlight-cell">Catálogo curado, sin urgencia</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Mantenimiento</td>
+            <td>Alto (stock, pedidos, pagos)</td>
+            <td class="highlight-cell">Medio (colección, historia)</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Riesgo de marca</td>
+            <td>Alto &mdash; puede percibirse como tienda masiva</td>
+            <td class="highlight-cell">Bajo &mdash; refuerza posicionamiento</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Coherencia con brand manual</td>
+            <td style="opacity: 0.5;">Baja</td>
+            <td class="highlight-cell" style="color: var(--dorado); font-weight: 500;">Alta</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══ PROPUESTAS ═══ -->
+  <section id="propuestas">
+    <div class="wide-inner fade-in">
+      <p class="section-label">05 &mdash; Las Propuestas</p>
+      <h2 class="section-title">Dos caminos, una misma <em>coherencia</em></h2>
+      <p>Ambas propuestas comparten los mismos principios: sin e-commerce, sin pasarela de pagos, sin gestión de stock. La venta ocurre por Instagram. La web genera el deseo. Estética editorial, objeto al centro, lenguaje limpio.</p>
+
+      <div class="spacer"></div>
+
+      <div class="proposals-grid">
+        <!-- PROPUESTA A -->
+        <div class="proposal-card recommended">
+          <div class="proposal-header">
+            <div class="proposal-letter">A</div>
+            <h3 class="proposal-name">Minimal</h3>
+            <p class="proposal-tagline">Lo esencial, con presencia real</p>
+          </div>
+          <div class="proposal-body">
+            <ul class="proposal-sections">
+              <li><span class="check">&#10003;</span> Hero / Portada editorial</li>
+              <li><span class="check">&#10003;</span> Piezas destacadas (3-6 piezas)</li>
+              <li><span class="check">&#10003;</span> About &mdash; Inés</li>
+              <li><span class="check">&#10003;</span> CTA &rarr; Instagram</li>
+              <li><span class="dash">&mdash;</span> <span style="opacity:0.4">Colección completa</span></li>
+              <li><span class="dash">&mdash;</span> <span style="opacity:0.4">Proceso / Taller</span></li>
+              <li><span class="dash">&mdash;</span> <span style="opacity:0.4">Inés Wiese &mdash; Artista</span></li>
+            </ul>
+            <div class="proposal-detail">
+              <span class="detail-label">Secciones</span>
+              <span class="detail-value">4</span>
+            </div>
+            <div class="proposal-detail">
+              <span class="detail-label">Desarrollo</span>
+              <span class="detail-value">3&ndash;4 semanas</span>
+            </div>
+            <div class="proposal-detail">
+              <span class="detail-label">Mantenimiento</span>
+              <span class="detail-value">Bajo</span>
+            </div>
+            <div class="proposal-detail" style="margin-top: 10px; padding-top: 14px; border-top: 2px solid rgba(221,173,98,0.2);">
+              <span class="detail-label" style="font-size: 0.82rem;">Inversión</span>
+              <span class="detail-value" style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--dorado);">S/ 2,000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROPUESTA B -->
+        <div class="proposal-card">
+          <div class="proposal-header">
+            <div class="proposal-letter">B</div>
+            <h3 class="proposal-name">Completa</h3>
+            <p class="proposal-tagline">Más superficie de marca</p>
+          </div>
+          <div class="proposal-body">
+            <ul class="proposal-sections">
+              <li><span class="check">&#10003;</span> Hero / Portada editorial</li>
+              <li><span class="check">&#10003;</span> Piezas destacadas (3-6 piezas)</li>
+              <li><span class="check">&#10003;</span> About &mdash; Inés</li>
+              <li><span class="check">&#10003;</span> CTA &rarr; Instagram</li>
+              <li><span class="check">&#10003;</span> Colección completa con fichas</li>
+              <li><span class="check">&#10003;</span> Proceso / Taller</li>
+              <li><span class="check">&#10003;</span> Inés Wiese &mdash; Artista</li>
+            </ul>
+            <div class="proposal-detail">
+              <span class="detail-label">Secciones</span>
+              <span class="detail-value">7</span>
+            </div>
+            <div class="proposal-detail">
+              <span class="detail-label">Desarrollo</span>
+              <span class="detail-value">5&ndash;7 semanas</span>
+            </div>
+            <div class="proposal-detail">
+              <span class="detail-label">Mantenimiento</span>
+              <span class="detail-value">Medio</span>
+            </div>
+            <div class="proposal-detail" style="margin-top: 10px; padding-top: 14px; border-top: 2px solid rgba(28,47,79,0.08);">
+              <span class="detail-label" style="font-size: 0.82rem;">Inversión</span>
+              <span class="detail-value" style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--dorado);">S/ 3,000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note-box">
+        <p class="note-title">Nuestra recomendación</p>
+        <p>Comenzar con Propuesta A. Es exactamente lo pedido. Es lanzable rápido, coherente con la marca, y establece presencia digital real. La Propuesta B puede desarrollarse como siguiente etapa cuando la web esté activa y haya feedback real de usuarios.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECCIONES ═══ -->
+  <section id="secciones" class="dark-section">
+    <div class="wide-inner fade-in">
+      <p class="section-label">06 &mdash; Detalle de Secciones</p>
+      <h2 class="section-title">Qué incluye <em>cada sección</em></h2>
+
+      <table class="sections-table">
+        <thead>
+          <tr>
+            <th>Sección</th>
+            <th>A</th>
+            <th>B</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="section-name">Hero / Portada</td>
+            <td class="included">&#10003;</td>
+            <td class="included">&#10003;</td>
+            <td>Imagen editorial de gran formato. Tagline de marca. Sin precio ni CTA de compra.</td>
+          </tr>
+          <tr>
+            <td class="section-name">Piezas destacadas</td>
+            <td class="included">&#10003;</td>
+            <td class="included">&#10003;</td>
+            <td>Selección curada de 3-6 piezas. Foto, nombre, material. Sin precio visible en portada.</td>
+          </tr>
+          <tr>
+            <td class="section-name">About &mdash; Inés</td>
+            <td class="included">&#10003;</td>
+            <td class="included">&#10003;</td>
+            <td>Historia de la orfebre. Quién es, cómo trabaja, qué la define. Tono del brand manual.</td>
+          </tr>
+          <tr>
+            <td class="section-name">CTA &rarr; Instagram</td>
+            <td class="included">&#10003;</td>
+            <td class="included">&#10003;</td>
+            <td>Link directo a @inesjoyas.oficial. "Ver colección completa" / "Consultar" / "Escribirnos".</td>
+          </tr>
+          <tr>
+            <td class="section-name">Colección completa</td>
+            <td class="not-included">&mdash;</td>
+            <td class="included">&#10003;</td>
+            <td>Galería editorial de todas las piezas activas. Con ficha individual: historia, material, proceso.</td>
+          </tr>
+          <tr>
+            <td class="section-name">Proceso / Taller</td>
+            <td class="not-included">&mdash;</td>
+            <td class="included">&#10003;</td>
+            <td>Fotos del taller, técnica, materialidad. Refuerza el valor del hecho a mano.</td>
+          </tr>
+          <tr>
+            <td class="section-name">Inés Wiese &mdash; Artista</td>
+            <td class="not-included">&mdash;</td>
+            <td class="included">&#10003;</td>
+            <td>Investigación, práctica artística, vínculo conceptual con la joyería. Respaldo conceptual de la marca.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="spacer"></div>
+
+      <h3>Ficha de Pieza <span class="tag tag-gold" style="font-size:0.6rem; vertical-align: middle;">Propuesta B</span></h3>
+      <p>Cada pieza en la colección incluye:</p>
+      <div class="feature-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="feature-item">
+          <h4>Contenido visual</h4>
+          <p>Fotografía editorial (una o más tomas). Sin precio visible. Sin botón de compra. Sin stock.</p>
+        </div>
+        <div class="feature-item">
+          <h4>Contenido escrito</h4>
+          <p>Nombre, materiales, técnica y nota de proceso o concepto (máx. 3 líneas). CTA: "Consultar disponibilidad" &rarr; Instagram DM.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TÉCNICO ═══ -->
+  <section id="tecnico">
+    <div class="section-inner fade-in">
+      <p class="section-label">07 &mdash; Ficha Técnica</p>
+      <h2 class="section-title">Aspectos <em>técnicos</em></h2>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th>Propuesta A</th>
+            <th>Propuesta B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dim-label">Plataforma sugerida</td>
+            <td>Next.js</td>
+            <td>Next.js</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Actualizaciones</td>
+            <td>Baja frecuencia &mdash; cambio de colección</td>
+            <td>Media frecuencia &mdash; pieza nueva o colección</td>
+          </tr>
+          <tr>
+            <td class="dim-label">SEO básico</td>
+            <td>Sí</td>
+            <td>Sí</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Mobile-first</td>
+            <td>Sí</td>
+            <td>Sí</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Integración Instagram</td>
+            <td>Link directo + embed feed opcional</td>
+            <td>Link directo + embed feed</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Dominio y hosting</td>
+            <td>A definir con cliente, costo por separado</td>
+            <td>A definir con cliente, costo por separado</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note-box">
+        <p class="note-title">Alcance confirmado</p>
+        <p>Sin tienda online. Sin checkout. Sin pasarela de pagos. Sin gestión de stock. La venta ocurre exclusivamente por Instagram.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ INVERSIÓN ═══ -->
+  <section id="inversion" class="dark-section">
+    <div class="wide-inner fade-in">
+      <p class="section-label">08 &mdash; Inversión</p>
+      <h2 class="section-title">Qué incluye <em>cada propuesta</em></h2>
+
+      <div class="price-grid">
+        <div class="price-card minimal">
+          <p class="price-label">Propuesta A</p>
+          <h3 class="price-name">Minimal</h3>
+          <ul class="price-includes">
+            <li><span class="icon">&#9670;</span> Diseño y desarrollo web (4 secciones)</li>
+            <li><span class="icon">&#9670;</span> Copywriting basado en brand manual</li>
+            <li><span class="icon">&#9670;</span> Diseño responsive (mobile-first)</li>
+            <li><span class="icon">&#9670;</span> SEO básico</li>
+            <li><span class="icon">&#9670;</span> Integración Instagram</li>
+          </ul>
+          <p class="price-amount" style="font-family: var(--font-serif); font-size: 1.8rem; color: var(--dorado); font-style: normal;">S/ 2,000</p>
+        </div>
+        <div class="price-card complete">
+          <p class="price-label">Propuesta B</p>
+          <h3 class="price-name">Completa</h3>
+          <ul class="price-includes">
+            <li><span class="icon">&#9670;</span> Todo lo de Propuesta A</li>
+            <li><span class="icon">&#9670;</span> Colección completa con fichas individuales</li>
+            <li><span class="icon">&#9670;</span> Sección Proceso / Taller</li>
+            <li><span class="icon">&#9670;</span> Sección Inés Wiese &mdash; Artista</li>
+            <li><span class="icon">&#9670;</span> Galería editorial expandida</li>
+          </ul>
+          <p class="price-amount" style="font-family: var(--font-serif); font-size: 1.8rem; color: var(--dorado); font-style: normal;">S/ 3,000</p>
+        </div>
+      </div>
+
+      <div class="note-box">
+        <p class="note-title">No incluido en ambas propuestas</p>
+        <p>Fotografía editorial (requiere sesión aparte o uso de material existente). Mantenimiento mensual (opcional, cotización aparte). Dominio y hosting (a definir con el cliente).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ QUÉ NECESITAMOS ═══ -->
+  <section id="entregables">
+    <div class="section-inner fade-in">
+      <p class="section-label">09 &mdash; Qué Necesitamos de Tu Lado</p>
+      <h2 class="section-title">Para avanzar, necesitamos estos <em>materiales</em></h2>
+
+      <p>Para que la web refleje fielmente la identidad de Inés, hay información y materiales que solo pueden venir del cliente. Sin estos elementos, no podemos comenzar el desarrollo.</p>
+
+      <div class="spacer"></div>
+
+      <div class="feature-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="feature-item">
+          <div class="feature-number">01</div>
+          <h4>Fotografía de piezas</h4>
+          <p>Fotos editoriales de las piezas que aparecerán en la web. Alta resolución, fondos limpios, coherentes con el brand manual. Si no existen, se cotiza sesión aparte.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">02</div>
+          <h4>Selección de piezas</h4>
+          <p>Definición de las 3-6 piezas destacadas (Propuesta A) o catálogo completo con fichas (Propuesta B): nombre, materiales, técnica y nota de concepto.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">03</div>
+          <h4>Historia y biografía</h4>
+          <p>Texto aprobado sobre Inés: quién es, su proceso, su visión. Podemos redactarlo a partir del brand manual, pero necesita validación del cliente.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">04</div>
+          <h4>Material del taller</h4>
+          <p>Fotos del proceso de trabajo, herramientas, espacios. Para la sección Proceso/Taller (Propuesta B) o para enriquecer el About.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">05</div>
+          <h4>Accesos y dominio</h4>
+          <p>Definir dominio deseado, acceso a cuentas de Instagram (@inesjoyas.oficial) para integración, y logo en formato vectorial si existe.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">06</div>
+          <h4>Feedback y aprobaciones</h4>
+          <p>Disponibilidad para revisiones en cada etapa: wireframe, diseño visual y contenido final. Tiempos de respuesta ágiles mantienen el proyecto en plazo.</p>
+        </div>
+      </div>
+
+      <div class="note-box">
+        <p class="note-title">Importante</p>
+        <p>El timeline de desarrollo comienza una vez recibidos estos materiales. Retrasos en la entrega de contenido impactan directamente la fecha de lanzamiento.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CIERRE ═══ -->
+  <section id="cierre" class="cta-section">
+    <div class="cta-content fade-in">
+      <p class="section-label">10 &mdash; Siguiente Paso</p>
+      <h2 class="section-title" style="margin-bottom: 20px;">La pieza es siempre <em style="color: var(--dorado);">el centro</em></h2>
+      <p>El riesgo de sobredimensionar en un primer lanzamiento es mayor que el de lanzar contenido y ajustar. Empecemos.</p>
+      <div class="spacer"></div>
+      <a href="mailto:jc@ingenia.la" class="cta-button">
+        Conversemos &rarr;
+      </a>
+      <div class="spacer-lg"></div>
+      <p class="small" style="color: rgba(249,245,222,0.25);">Itera &mdash; Marzo 2026</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════
+// MENU TOGGLE (MOBILE)
+// ═══════════════════════════════════════════
+
+function toggleMenu() {
+  const sidebar = document.querySelector('.sidebar');
+  const toggle = document.querySelector('.menu-toggle');
+  const overlay = document.querySelector('.sidebar-overlay');
+
+  sidebar.classList.toggle('open');
+  toggle.classList.toggle('active');
+  overlay.classList.toggle('active');
+}
+
+// Close menu on nav click (mobile)
+document.querySelectorAll('.sidebar nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
+      toggleMenu();
+    }
+  });
+});
+
+// ═══════════════════════════════════════════
+// ACTIVE NAV TRACKING
+// ═══════════════════════════════════════════
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar nav a');
+
+function updateActiveNav() {
+  let current = '';
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 200;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav);
+updateActiveNav();
+
+// ═══════════════════════════════════════════
+// FADE IN ON SCROLL
+// ═══════════════════════════════════════════
+
+const fadeElements = document.querySelectorAll('.fade-in');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+});
+
+fadeElements.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
