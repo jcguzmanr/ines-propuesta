@@ -983,70 +983,6 @@ blockquote cite {
 }
 
 /* ═══════════════════════════════════════════
-   CTA / CLOSING
-   ═══════════════════════════════════════════ */
-
-#cierre {
-  text-align: center;
-}
-
-.cta-section {
-  background: var(--morado);
-  padding: 100px 40px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 30% 50%, rgba(221,173,98,0.08) 0%, transparent 60%);
-}
-
-.cta-content {
-  position: relative;
-  z-index: 1;
-}
-
-.cta-section .section-title {
-  color: var(--blanco-hueso);
-}
-
-.cta-section p {
-  color: rgba(249,245,222,0.5);
-  max-width: 500px;
-  margin: 0 auto 30px;
-}
-
-.cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 36px;
-  background: var(--dorado);
-  color: var(--azul-oscuro);
-  text-decoration: none;
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  border-radius: 40px;
-  transition: all var(--transition);
-}
-
-.cta-button:hover {
-  background: var(--blanco-hueso);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-}
-
-/* ═══════════════════════════════════════════
    DISCLAIMER / NOTES
    ═══════════════════════════════════════════ */
 
@@ -1494,6 +1430,19 @@ blockquote cite {
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
+a.prototype-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a.prototype-card:focus-visible {
+  outline: 2px solid var(--dorado);
+  outline-offset: 3px;
+}
+
 .prototype-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(28,47,79,0.1);
@@ -1609,6 +1558,7 @@ blockquote cite {
   transition: all 0.3s;
 }
 
+.prototype-card:hover .prototype-cta,
 .prototype-cta:hover {
   background: var(--dorado);
   color: var(--white);
@@ -1737,31 +1687,27 @@ blockquote cite {
   <section id="cronograma">
     <div class="wide-inner fade-in">
       <p class="section-label">Cronograma</p>
-      <h2 class="section-title">Timeline de <em>desarrollo</em></h2>
-      <p>3&ndash;4 semanas desde la recepci&oacute;n completa de materiales (fotograf&iacute;a + fichas de piezas).</p>
+      <h2 class="section-title">Tres <em>sprints</em></h2>
+      <p>En esta propuesta ya se presenta la estructura y el wireframe funcional; el dise&ntilde;o visual va aproximadamente a mitad de camino. Lo que sigue se organiza en tres entregables, sujetos a recepci&oacute;n oportuna de materiales (fotograf&iacute;a, fichas de piezas y definici&oacute;n de la secci&oacute;n de productos).</p>
 
       <div class="timeline-mini">
         <div class="timeline-step">
-          <p class="week">Semana 1</p>
-          <p class="task">Estructura y Wireframe</p>
+          <p class="week">Sprint 1</p>
+          <p class="task">Feedback para cerrar dise&ntilde;o visual; consolidar fotograf&iacute;a, fichas y criterios de producto</p>
         </div>
         <div class="timeline-step">
-          <p class="week">Semana 2</p>
-          <p class="task">Dise&ntilde;o Visual</p>
+          <p class="week">Sprint 2</p>
+          <p class="task">Desarrollo, integraci&oacute;n de contenido aprobado y QA</p>
         </div>
         <div class="timeline-step">
-          <p class="week">Semana 3</p>
-          <p class="task">Desarrollo + QA</p>
-        </div>
-        <div class="timeline-step">
-          <p class="week">Semana 4</p>
-          <p class="task">Ajustes y Lanzamiento</p>
+          <p class="week">Sprint 3</p>
+          <p class="task">Ajustes finales seg&uacute;n revisi&oacute;n (sin lanzamiento p&uacute;blico en alcance)</p>
         </div>
       </div>
 
       <div class="note-box">
         <p class="note-title">Condiciones</p>
-        <p>2 rondas de revisi&oacute;n incluidas (wireframe + dise&ntilde;o visual). Itera responde en 24h h&aacute;biles; feedback del cliente esperado en 48h h&aacute;biles. Retrasos en contenido ajustan el timeline proporcionalmente.</p>
+        <p>2 rondas de revisi&oacute;n incluidas (cierre de dise&ntilde;o visual + entrega de desarrollo). Itera responde en 24h h&aacute;biles; feedback del cliente esperado en 48h h&aacute;biles. Retrasos en contenido ajustan el calendario proporcionalmente. El go-live se coordina aparte si la marca lo requiere.</p>
       </div>
     </div>
   </section>
@@ -1775,7 +1721,7 @@ blockquote cite {
 
       <div class="prototypes-grid">
         <!-- OPCION A -->
-        <div class="prototype-card">
+        <a href="prototipos/opcion-a.html" target="_blank" rel="noopener noreferrer" class="prototype-card">
           <div class="prototype-preview prototype-preview-a">
             <span class="preview-label">In&eacute;s</span>
             <span class="preview-tag">Opci&oacute;n A</span>
@@ -1791,14 +1737,12 @@ blockquote cite {
               <li><span class="bullet">&#9670;</span> Sin color de marca en la estructura &mdash; neutral total</li>
               <li><span class="bullet">&#9670;</span> Ideal si la fotograf&iacute;a editorial es de alto nivel</li>
             </ul>
-            <a href="prototipos/opcion-a.html" target="_blank" class="prototype-cta">
-              Abrir prototipo A &rarr;
-            </a>
+            <span class="prototype-cta">Abrir prototipo A &rarr;</span>
           </div>
-        </div>
+        </a>
 
         <!-- OPCION B -->
-        <div class="prototype-card">
+        <a href="prototipos/opcion-b.html" target="_blank" rel="noopener noreferrer" class="prototype-card">
           <div class="prototype-preview prototype-preview-b">
             <span class="preview-label">In&eacute;s</span>
             <span class="preview-tag">Opci&oacute;n B</span>
@@ -1814,11 +1758,9 @@ blockquote cite {
               <li><span class="bullet">&#9670;</span> Secci&oacute;n Bespoke con fondo blanco hueso como contraste</li>
               <li><span class="bullet">&#9670;</span> Funciona bien incluso si las fotos no son perfectas &mdash; la marca sostiene</li>
             </ul>
-            <a href="prototipos/opcion-b.html" target="_blank" class="prototype-cta">
-              Abrir prototipo B &rarr;
-            </a>
+            <span class="prototype-cta">Abrir prototipo B &rarr;</span>
           </div>
-        </div>
+        </a>
       </div>
 
       <div class="note-box">
@@ -2318,21 +2260,6 @@ blockquote cite {
 
     </div><!-- /collapsible-body propuesta -->
   </div><!-- /collapsible-group propuesta -->
-
-  <!-- ═══ CIERRE ═══ -->
-  <section id="cierre" class="cta-section">
-    <div class="cta-content fade-in">
-      <p class="section-label">10 &mdash; Siguiente Paso</p>
-      <h2 class="section-title" style="margin-bottom: 20px;">La pieza es siempre <em style="color: var(--dorado);">el centro</em></h2>
-      <p>El riesgo de sobredimensionar en un primer lanzamiento es mayor que el de lanzar contenido y ajustar. Empecemos.</p>
-      <div class="spacer"></div>
-      <a href="mailto:jc@ingenia.la" class="cta-button">
-        Conversemos &rarr;
-      </a>
-      <div class="spacer-lg"></div>
-      <p class="small" style="color: rgba(249,245,222,0.25);">Itera &mdash; Marzo 2026</p>
-    </div>
-  </section>
 
 </main>
 
