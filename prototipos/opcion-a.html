@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INES — Opción A (Minimal)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root {
+    --blanco: #FFFFFF;
+    --negro: #111111;
+    --gris-texto: #555555;
+    --gris-claro: #E8E8E8;
+    --gris-medio: #CCCCCC;
+    --dorado: #DDAD62;
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--blanco);
+    color: var(--negro);
+    cursor: default;
+  }
+
+  /* ─── CUSTOM CURSORS ─── */
+  .cursor-arrow {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--negro);
+    text-transform: lowercase;
+  }
+
+  .cursor-arrow.visible { opacity: 1; }
+  .cursor-arrow i { font-size: 16px; }
+
+  /* ─── HEADER ─── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 40px;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+
+  header > * { pointer-events: all; }
+
+  .logo {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--blanco);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .cart-icon {
+    color: var(--blanco);
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -6px; right: -8px;
+    background: var(--dorado);
+    color: var(--negro);
+    font-size: 9px;
+    font-weight: 500;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    mix-blend-mode: normal;
+  }
+
+  /* ─── TOP CENTER ─── */
+  .top-center {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .placeholder-banner {
+    background: var(--dorado);
+    color: var(--negro);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 2px;
+  }
+
+  .counter {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: var(--gris-texto);
+    transition: color 0.3s;
+  }
+
+  /* ─── PRODUCT SECTIONS (scrollable) ─── */
+  .product-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .product-section:nth-child(odd) { background: #FAFAFA; }
+  .product-section:nth-child(even) { background: var(--blanco); }
+
+  /* Takes container inside each product section */
+  .takes-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+
+  .take {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .take.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .product-icon {
+    font-size: 200px;
+    color: var(--gris-claro);
+    margin-bottom: 32px;
+  }
+
+  .product-label {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--negro);
+  }
+
+  .product-material {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--gris-texto);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  .toma-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: var(--gris-medio);
+    margin-top: 12px;
+    padding: 4px 12px;
+    border: 1px solid var(--gris-claro);
+    border-radius: 2px;
+  }
+
+  /* Take dots */
+  .take-dots {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+  }
+
+  .take-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gris-claro);
+    transition: background 0.3s;
+  }
+
+  .take-dot.active { background: var(--negro); }
+
+  /* ─── ARROW ZONES (invisible, cursor changes) ─── */
+  .arrow-zone {
+    position: absolute;
+    top: 0;
+    width: 18%;
+    height: 100%;
+    z-index: 10;
+    cursor: none;
+  }
+
+  .arrow-zone-left { left: 0; }
+  .arrow-zone-right { right: 0; }
+
+  /* ─── CONTENT SECTIONS ─── */
+  .section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 100px 40px;
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    color: var(--negro);
+  }
+
+  /* Colección grid */
+  .section-coleccion { background: var(--blanco); }
+
+  .piezas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  .pieza-card {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .pieza-card:hover { transform: translateY(-4px); }
+
+  .pieza-card-icon {
+    font-size: 80px;
+    color: var(--gris-claro);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .pieza-card-name {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .pieza-card-material {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--gris-texto);
+  }
+
+  .pieza-card-price {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--negro);
+    margin-top: 8px;
+    opacity: 0.6;
+  }
+
+  /* About */
+  .section-about { background: #FAFAFA; }
+
+  .about-content {
+    max-width: 640px;
+    text-align: center;
+  }
+
+  .about-content p {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--gris-texto);
+    margin-bottom: 24px;
+  }
+
+  .about-signature {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-style: italic;
+    color: #999;
+    margin-top: 20px;
+  }
+
+  /* Contacto */
+  .section-contacto {
+    background: var(--blanco);
+    text-align: center;
+  }
+
+  .cta-text {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+    color: var(--gris-texto);
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--negro);
+    text-decoration: none;
+    border: 1px solid var(--gris-claro);
+    padding: 16px 40px;
+    transition: all 0.3s ease;
+  }
+
+  .cta-button:hover {
+    background: var(--negro);
+    color: var(--blanco);
+    border-color: var(--negro);
+  }
+
+  /* Footer */
+  footer {
+    padding: 40px;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #BBB;
+    text-transform: uppercase;
+  }
+
+  footer a { color: #999; text-decoration: none; }
+
+  /* ─── BOTTOM NAV ─── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 24px 40px;
+    background: linear-gradient(transparent, rgba(255,255,255,0.95));
+  }
+
+  .bottom-nav a {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gris-medio);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .bottom-nav a:hover { color: var(--negro); }
+  .bottom-nav a.active-nav { color: var(--negro); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .logo { font-size: 22px; letter-spacing: 6px; }
+    header { padding: 16px 20px; }
+    .product-icon { font-size: 140px; }
+    .piezas-grid { grid-template-columns: 1fr; gap: 48px; }
+    .bottom-nav { gap: 20px; }
+    .bottom-nav a { font-size: 10px; letter-spacing: 2px; }
+    .section { padding: 80px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-arrow" id="cursorArrow">
+  <i class="fa-solid fa-arrow-left"></i>
+  <span>atrás</span>
+</div>
+
+<!-- TOP CENTER -->
+<div class="top-center">
+  <div class="placeholder-banner">Prototipo — contenido placeholder</div>
+  <div class="counter"><span id="currentProduct">1</span> / 6</div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Inés</div>
+  <div class="header-right">
+    <div class="cart-icon">
+      <i class="fa-solid fa-bag-shopping"></i>
+      <span class="cart-badge">0</span>
+    </div>
+  </div>
+</header>
+
+<!-- SCROLLABLE PRODUCT SECTIONS -->
+<main id="productArea">
+
+  <!-- Product 1 -->
+  <section class="product-section" data-product="1" id="product-1">
+    <div class="takes-container">
+      <div class="take active" data-take="1">
+        <i class="fa-solid fa-ring product-icon"></i>
+        <span class="product-label">Anillo Río</span>
+        <span class="product-material">Plata 950 · Acabado mate</span>
+        <span class="toma-label">Toma A — Vista frontal completa</span>
+      </div>
+      <div class="take" data-take="2">
+        <i class="fa-solid fa-ring product-icon" style="transform: rotate(45deg);"></i>
+        <span class="product-label">Anillo Río</span>
+        <span class="product-material">Plata 950 · Acabado mate</span>
+        <span class="toma-label">Toma B — Detalle lateral / textura</span>
+      </div>
+      <div class="take" data-take="3">
+        <i class="fa-solid fa-ring product-icon" style="transform: rotate(-30deg) scale(1.15);"></i>
+        <span class="product-label">Anillo Río</span>
+        <span class="product-material">Plata 950 · Acabado mate</span>
+        <span class="toma-label">Toma C — Macro detalle</span>
+      </div>
+    </div>
+    <div class="take-dots">
+      <div class="take-dot active"></div>
+      <div class="take-dot"></div>
+      <div class="take-dot"></div>
+    </div>
+    <div class="arrow-zone arrow-zone-left" data-dir="prev"></div>
+    <div class="arrow-zone arrow-zone-right" data-dir="next"></div>
+  </section>
+
+  <!-- Product 2 -->
+  <section class="product-section" data-product="2" id="product-2">
+    <div class="takes-container">
+      <div class="take active" data-take="1">
+        <i class="fa-solid fa-gem product-icon"></i>
+        <span class="product-label">Collar Origen</span>
+        <span class="product-material">Oro 18K · Cuarzo rosa</span>
+        <span class="toma-label">Toma A — Vista frontal completa</span>
+      </div>
+      <div class="take" data-take="2">
+        <i class="fa-solid fa-gem product-icon" style="transform: rotate(20deg) scale(1.2);"></i>
+        <span class="product-label">Collar Origen</span>
+        <span class="product-material">Oro 18K · Cuarzo rosa</span>
+        <span class="toma-label">Toma B — Detalle de engaste</span>
+      </div>
+      <div class="take" data-take="3">
+        <i class="fa-solid fa-gem product-icon" style="transform: scale(1.4);"></i>
+        <span class="product-label">Collar Origen</span>
+        <span class="product-material">Oro 18K · Cuarzo rosa</span>
+        <span class="toma-label">Toma C — Macro piedra</span>
+      </div>
+    </div>
+    <div class="take-dots">
+      <div class="take-dot active"></div>
+      <div class="take-dot"></div>
+      <div class="take-dot"></div>
+    </div>
+    <div class="arrow-zone arrow-zone-left" data-dir="prev"></div>
+    <div class="arrow-zone arrow-zone-right" data-dir="next"></div>
+  </section>
+
+  <!-- Product 3 -->
+  <section class="product-section" data-product="3" id="product-3">
+    <div class="takes-container">
+      <div class="take active" data-take="1">
+        <i class="fa-solid fa-circle-notch product-icon" style="font-size: 170px;"></i>
+        <span class="product-label">Brazalete Huella</span>
+        <span class="product-material">Plata 950 · Textura martillada</span>
+        <span class="toma-label">Toma A — Vista completa</span>
+      </div>
+      <div class="take" data-take="2">
+        <i class="fa-solid fa-circle-notch product-icon" style="font-size: 220px; transform: rotate(90deg);"></i>
+        <span class="product-label">Brazalete Huella</span>
+        <span class="product-material">Plata 950 · Textura martillada</span>
+        <span class="toma-label">Toma B — Detalle textura</span>
+      </div>
+      <div class="take" data-take="3">
+        <i class="fa-solid fa-circle-notch product-icon" style="font-size: 140px;"></i>
+        <span class="product-label">Brazalete Huella</span>
+        <span class="product-material">Plata 950 · Textura martillada</span>
+        <span class="toma-label">Toma C — Sobre piel</span>
+      </div>
+    </div>
+    <div class="take-dots">
+      <div class="take-dot active"></div>
+      <div class="take-dot"></div>
+      <div class="take-dot"></div>
+    </div>
+    <div class="arrow-zone arrow-zone-left" data-dir="prev"></div>
+    <div class="arrow-zone arrow-zone-right" data-dir="next"></div>
+  </section>
+
+  <!-- Product 4 -->
+  <section class="product-section" data-product="4" id="product-4">
+    <div class="takes-container">
+      <div class="take active" data-take="1">
+        <i class="fa-solid fa-star-of-david product-icon" style="font-size: 160px;"></i>
+        <span class="product-label">Pendientes Calma</span>
+        <span class="product-material">Plata 950 · Piedra luna</span>
+        <span class="toma-label">Toma A — Par completo</span>
+      </div>
+      <div class="take" data-take="2">
+        <i class="fa-solid fa-star-of-david product-icon" style="font-size: 200px; transform: rotate(30deg);"></i>
+        <span class="product-label">Pendientes Calma</span>
+        <span class="product-material">Plata 950 · Piedra luna</span>
+        <span class="toma-label">Toma B — Detalle individual</span>
+      </div>
+    </div>
+    <div class="take-dots">
+      <div class="take-dot active"></div>
+      <div class="take-dot"></div>
+    </div>
+    <div class="arrow-zone arrow-zone-left" data-dir="prev"></div>
+    <div class="arrow-zone arrow-zone-right" data-dir="next"></div>
+  </section>
+
+  <!-- Product 5 -->
+  <section class="product-section" data-product="5" id="product-5">
+    <div class="takes-container">
+      <div class="take active" data-take="1">
+        <i class="fa-solid fa-diamond product-icon" style="font-size: 160px;"></i>
+        <span class="product-label">Broche Semilla</span>
+        <span class="product-material">Oro 18K · Esmeralda natural</span>
+        <span class="toma-label">Toma A — Vista frontal</span>
+      </div>
+      <div class="take" data-take="2">
+        <i class="fa-solid fa-diamond product-icon" style="font-size: 180px; transform: rotate(45deg);"></i>
+        <span class="product-label">Broche Semilla</span>
+        <span class="product-material">Oro 18K · Esmeralda natural</span>
+        <span class="toma-label">Toma B — Reverso / cierre</span>
+      </div>
+      <div class="take" data-take="3">
+        <i class="fa-solid fa-diamond product-icon" style="font-size: 240px;"></i>
+        <span class="product-label">Broche Semilla</span>
+        <span class="product-material">Oro 18K · Esmeralda natural</span>
+        <span class="toma-label">Toma C — Macro engaste</span>
+      </div>
+    </div>
+    <div class="take-dots">
+      <div class="take-dot active"></div>
+      <div class="take-dot"></div>
+      <div class="take-dot"></div>
+    </div>
+    <div class="arrow-zone arrow-zone-left" data-dir="prev"></div>
+    <div class="arrow-zone arrow-zone-right" data-dir="next"></div>
+  </section>
+
+  <!-- Product 6 -->
+  <section class="product-section" data-product="6" id="product-6">
+    <div class="takes-container">
+      <div class="take active" data-take="1">
+        <i class="fa-regular fa-circle product-icon" style="font-size: 180px;"></i>
+        <span class="product-label">Cuff Memoria</span>
+        <span class="product-material">Plata 950 · Acabado pulido</span>
+        <span class="toma-label">Toma A — Vista completa</span>
+      </div>
+      <div class="take" data-take="2">
+        <i class="fa-regular fa-circle product-icon" style="font-size: 220px;"></i>
+        <span class="product-label">Cuff Memoria</span>
+        <span class="product-material">Plata 950 · Acabado pulido</span>
+        <span class="toma-label">Toma B — Interior / grabado</span>
+      </div>
+    </div>
+    <div class="take-dots">
+      <div class="take-dot active"></div>
+      <div class="take-dot"></div>
+    </div>
+    <div class="arrow-zone arrow-zone-left" data-dir="prev"></div>
+    <div class="arrow-zone arrow-zone-right" data-dir="next"></div>
+  </section>
+
+</main>
+
+<!-- CONTENT SECTIONS -->
+<section class="section section-coleccion" id="coleccion-section">
+  <h2 class="section-title">Bespoke</h2>
+  <div class="about-content" style="margin-bottom: 48px; max-width: 600px;">
+    <p style="font-family: var(--font-serif); font-size: 18px; font-weight: 300; line-height: 1.8; color: var(--gris-texto);">Ideas show up when one looks at the world with curiosity. In the right state of mind, inspiration can come from any aspect of our tangible world.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; max-width: 900px; width: 100%; margin-bottom: 60px;">
+    <div style="text-align: center;">
+      <div style="font-family: var(--font-serif); font-size: 48px; font-weight: 300; color: var(--gris-claro); margin-bottom: 12px;">1</div>
+      <div style="font-family: var(--font-sans); font-size: 11px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Contact</div>
+      <div style="font-family: var(--font-sans); font-size: 12px; font-weight: 300; color: var(--gris-texto); line-height: 1.6;">Send me a DM on Instagram or a message via WhatsApp</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-family: var(--font-serif); font-size: 48px; font-weight: 300; color: var(--gris-claro); margin-bottom: 12px;">2</div>
+      <div style="font-family: var(--font-sans); font-size: 11px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Design</div>
+      <div style="font-family: var(--font-sans); font-size: 12px; font-weight: 300; color: var(--gris-texto); line-height: 1.6;">Tell me what type of jewel you want. I can make you a design proposal</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-family: var(--font-serif); font-size: 48px; font-weight: 300; color: var(--gris-claro); margin-bottom: 12px;">3</div>
+      <div style="font-family: var(--font-sans); font-size: 11px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Materials</div>
+      <div style="font-family: var(--font-sans); font-size: 12px; font-weight: 300; color: var(--gris-texto); line-height: 1.6;">Do you have old jewelry to recycle? I can use your gold, silver or natural stones</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-family: var(--font-serif); font-size: 48px; font-weight: 300; color: var(--gris-claro); margin-bottom: 12px;">4</div>
+      <div style="font-family: var(--font-sans); font-size: 11px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">Production</div>
+      <div style="font-family: var(--font-sans); font-size: 12px; font-weight: 300; color: var(--gris-texto); line-height: 1.6;">Receive your work schedule, approve it and get started</div>
+    </div>
+  </div>
+  <h2 class="section-title" style="font-size: 28px; margin-top: 40px;">Collection</h2>
+  <div class="piezas-grid">
+    <div class="pieza-card">
+      <i class="fa-solid fa-ring pieza-card-icon"></i>
+      <div class="pieza-card-name">Anillo Río</div>
+      <div class="pieza-card-material">Plata 950, acabado mate</div>
+      <div class="pieza-card-price">Consultar disponibilidad</div>
+    </div>
+    <div class="pieza-card">
+      <i class="fa-solid fa-gem pieza-card-icon"></i>
+      <div class="pieza-card-name">Collar Origen</div>
+      <div class="pieza-card-material">Oro 18K, cuarzo rosa</div>
+      <div class="pieza-card-price">Consultar disponibilidad</div>
+    </div>
+    <div class="pieza-card">
+      <i class="fa-solid fa-circle-notch pieza-card-icon"></i>
+      <div class="pieza-card-name">Brazalete Huella</div>
+      <div class="pieza-card-material">Plata 950, textura martillada</div>
+      <div class="pieza-card-price">Consultar disponibilidad</div>
+    </div>
+    <div class="pieza-card">
+      <i class="fa-solid fa-star-of-david pieza-card-icon"></i>
+      <div class="pieza-card-name">Pendientes Calma</div>
+      <div class="pieza-card-material">Plata 950, piedra luna</div>
+      <div class="pieza-card-price">Consultar disponibilidad</div>
+    </div>
+    <div class="pieza-card">
+      <i class="fa-solid fa-diamond pieza-card-icon"></i>
+      <div class="pieza-card-name">Broche Semilla</div>
+      <div class="pieza-card-material">Oro 18K, esmeralda natural</div>
+      <div class="pieza-card-price">Consultar disponibilidad</div>
+    </div>
+    <div class="pieza-card">
+      <i class="fa-regular fa-circle pieza-card-icon"></i>
+      <div class="pieza-card-name">Cuff Memoria</div>
+      <div class="pieza-card-material">Plata 950, acabado pulido</div>
+      <div class="pieza-card-price">Consultar disponibilidad</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-about" id="about-section">
+  <h2 class="section-title">About</h2>
+  <div class="about-content">
+    <p>Inés is a Peruvian sculptor who started making jewellery out of the enjoyment of fabricating novel ornamental objects.</p>
+    <p>She's a self-taught goldsmith whose work evidences the close relationship that exists between sculptural work and jewellery making.</p>
+    <p>Her pieces are to be thought of as small-scale sculptures to ornament the body — to be enjoyed through touch and sight.</p>
+    <p>As a visual artist, Inés is constantly investigating new construction methods that allow her to present unconventional, imaginative pieces. Through her work, she seeks to put traditional goldsmithing materials at the service of a contemporary aesthetic.</p>
+    <div class="about-signature">— Inés Wiese</div>
+  </div>
+</section>
+
+<section class="section section-contacto" id="contacto-section">
+  <h2 class="section-title">Contact</h2>
+  <div class="cta-text">Consultas, encargos y disponibilidad</div>
+  <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+    <a href="https://instagram.com/inesjoyas.oficial" class="cta-button" target="_blank">
+      <i class="fa-brands fa-instagram"></i> @inesjoyas.oficial
+    </a>
+    <a href="https://wa.me/" class="cta-button" target="_blank">
+      <i class="fa-brands fa-whatsapp"></i> WhatsApp
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>Inés — Atelier de joyería de autor</p>
+  <p style="margin-top: 8px;"><a href="https://instagram.com/inesjoyas.oficial">Instagram</a></p>
+</footer>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="#product-1" class="active-nav" data-nav="piezas">Shop</a>
+  <a href="#coleccion-section" data-nav="coleccion">Bespoke</a>
+  <a href="#about-section" data-nav="about">About</a>
+  <a href="#contacto-section" data-nav="contacto">Contact</a>
+</nav>
+
+<script>
+  // ─── STATE ───
+  const sections = document.querySelectorAll('.product-section');
+  const currentTakes = {};
+  const cursorEl = document.getElementById('cursorArrow');
+  const counterEl = document.getElementById('currentProduct');
+  let cursorSide = null; // 'left' | 'right' | null
+
+  sections.forEach((s, i) => { currentTakes[i + 1] = 1; });
+
+  // ─── COUNTER: update on scroll ───
+  function updateCounter() {
+    const scrollY = window.scrollY;
+    const vh = window.innerHeight;
+    const index = Math.round(scrollY / vh) + 1;
+    const clamped = Math.max(1, Math.min(index, sections.length));
+    counterEl.textContent = clamped;
+  }
+
+  window.addEventListener('scroll', updateCounter);
+
+  // ─── TAKES: change within a product ───
+  function setTake(productIndex, takeIndex) {
+    const section = sections[productIndex - 1];
+    if (!section) return;
+    const takes = section.querySelectorAll('.take');
+    const dots = section.querySelectorAll('.take-dot');
+    const max = takes.length;
+
+    if (takeIndex < 1) takeIndex = max;
+    if (takeIndex > max) takeIndex = 1;
+
+    currentTakes[productIndex] = takeIndex;
+    takes.forEach(t => t.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    takes[takeIndex - 1].classList.add('active');
+    if (dots[takeIndex - 1]) dots[takeIndex - 1].classList.add('active');
+  }
+
+  function getVisibleProduct() {
+    const scrollY = window.scrollY;
+    const vh = window.innerHeight;
+    return Math.max(1, Math.min(Math.round(scrollY / vh) + 1, sections.length));
+  }
+
+  // ─── ARROW ZONES: click ───
+  document.querySelectorAll('.arrow-zone').forEach(zone => {
+    zone.addEventListener('click', () => {
+      const section = zone.closest('.product-section');
+      const productIndex = parseInt(section.dataset.product);
+      const dir = zone.dataset.dir;
+      const cur = currentTakes[productIndex];
+      if (dir === 'next') setTake(productIndex, cur + 1);
+      else setTake(productIndex, cur - 1);
+    });
+  });
+
+  // ─── CUSTOM CURSOR ───
+  document.addEventListener('mousemove', (e) => {
+    const x = e.clientX;
+    const w = window.innerWidth;
+    const scrollY = window.scrollY;
+    const productAreaHeight = sections.length * window.innerHeight;
+
+    // Only show custom cursor in product area
+    const inProductArea = (scrollY + e.clientY) < productAreaHeight;
+
+    if (inProductArea && x < w * 0.18) {
+      cursorSide = 'left';
+      cursorEl.innerHTML = '<i class="fa-solid fa-arrow-left"></i><span>atrás</span>';
+      cursorEl.classList.add('visible');
+      cursorEl.style.left = (e.clientX + 16) + 'px';
+      cursorEl.style.top = (e.clientY - 10) + 'px';
+      document.body.style.cursor = 'none';
+    } else if (inProductArea && x > w * 0.82) {
+      cursorSide = 'right';
+      cursorEl.innerHTML = '<span>siguiente</span><i class="fa-solid fa-arrow-right"></i>';
+      cursorEl.classList.add('visible');
+      cursorEl.style.left = (e.clientX - 100) + 'px';
+      cursorEl.style.top = (e.clientY - 10) + 'px';
+      document.body.style.cursor = 'none';
+    } else {
+      cursorSide = null;
+      cursorEl.classList.remove('visible');
+      document.body.style.cursor = 'default';
+    }
+  });
+
+  // ─── KEYBOARD ───
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') {
+      const p = getVisibleProduct();
+      setTake(p, currentTakes[p] + 1);
+    }
+    if (e.key === 'ArrowLeft') {
+      const p = getVisibleProduct();
+      setTake(p, currentTakes[p] - 1);
+    }
+  });
+
+  // ─── NAV HIGHLIGHT ───
+  const navLinks = document.querySelectorAll('.bottom-nav a');
+
+  function updateNav() {
+    const scrollY = window.scrollY;
+    const vh = window.innerHeight;
+    const productAreaEnd = sections.length * vh;
+
+    navLinks.forEach(l => l.classList.remove('active-nav'));
+
+    if (scrollY < productAreaEnd - vh * 0.5) {
+      navLinks[0].classList.add('active-nav');
+    } else {
+      const contentSections = [
+        { el: document.getElementById('coleccion-section'), nav: navLinks[1] },
+        { el: document.getElementById('about-section'), nav: navLinks[2] },
+        { el: document.getElementById('contacto-section'), nav: navLinks[3] },
+      ];
+      let found = false;
+      for (let i = contentSections.length - 1; i >= 0; i--) {
+        if (scrollY >= contentSections[i].el.offsetTop - vh * 0.5) {
+          contentSections[i].nav.classList.add('active-nav');
+          found = true;
+          break;
+        }
+      }
+      if (!found) navLinks[0].classList.add('active-nav');
+    }
+  }
+
+  window.addEventListener('scroll', updateNav);
+</script>
+
+</body>
+</html>
